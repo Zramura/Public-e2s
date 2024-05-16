@@ -1,0 +1,38 @@
+@name NPC Ward [Zramura's Vertion] [explosive use]
+if(first()|dupefinished()){
+    local Filter = array(
+        "npc_grenade_bugbait",
+        "npc_zombie_grenade",
+        "npc_grenade_frag",
+        "npc_satchel",
+        "npc_tripmine",
+        "npc_heli_avoidsphere",
+        "npc_template_maker",
+        "npcz_aw119_kiowa"
+    )
+    for(I=1,Filter:count()){
+        findExcludeClass(Filter[I,string])
+    }
+    findIncludeClass("npc_*")
+    timer("Find",1)
+    timer("Logic",1)
+}
+if(clk("Find")){
+    findInSphere(entity():pos(),1000)
+    timer("Find",1000)
+}
+if(clk("Logic")){
+    local TargetArray = findToArray()
+    for(I=1,TargetArray:count()){
+        local Target = TargetArray[I,entity]
+        if(Target:isValid()&Target:isAlive()){
+            #projectile settings
+            local Vector=Target:pos()+vec(0,0,Target:height()*0.5)
+            #Boom
+            propSpawn("models/props_phx/cannonball.mdl",Vector,ang(),1):propBreak()
+            propSpawn("models/props_phx/cannonball.mdl",Vector,ang(),1):propBreak()
+            propSpawn("models/props_phx/cannonball.mdl",Vector,ang(),1):propBreak()
+        }
+    }
+    timer("Logic",250)
+}
