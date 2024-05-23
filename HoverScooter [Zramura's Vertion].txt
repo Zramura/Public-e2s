@@ -6,7 +6,8 @@
 
 interval(20)
 
-if(first()| dupefinished()){
+if(dupefinished()){reset()}
+if(first()){
     soundPlay(0,0,"ambient/tones/garage.wav")
     soundPlay(1,0,"npc/manhack/mh_engine_loop1.wav") 
     soundPlay(2,0,"weapons/airboat/airboat_gun_loop2.wav")
