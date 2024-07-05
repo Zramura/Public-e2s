@@ -1,0 +1,20 @@
+@name DamageDetector [By Zramura]
+@inputs Butten
+@outputs Damage Count
+@persist Entity:entity
+if(first()|dupefinished()){
+    Count = 0
+    Damage = 0
+    Entity = entity():isWeldedTo()
+}
+event entityDamage(Victim:entity, DMG:damage) {
+    if(Victim==Entity){
+        Damage = DMG:getAmount()
+        Count = Count + DMG:getAmount()
+        print("damage: "+Damage:toString()+" :: "+"Count: "+Count:toString())
+    }
+}
+if(Butten){
+    Count = 0
+    Damage = 0
+}
