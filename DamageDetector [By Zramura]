@@ -9,8 +9,8 @@ if(first()|dupefinished()){
 }
 event entityDamage(Victim:entity, DMG:damage) {
     if(Victim==Entity){
-        Damage = DMG:getAmount()
-        Count = Count + DMG:getAmount()
+        Damage = round(DMG:getAmount())
+        Count = Count + Damage
         print("damage: "+Damage:toString()+" :: "+"Count: "+Count:toString())
     }
 }
