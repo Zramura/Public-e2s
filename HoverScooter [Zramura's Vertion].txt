@@ -1,8 +1,7 @@
 @name HoverScooter [Zramura's Vertion]
-@inputs [Light1,Light2]:entity
 @inputs Pod:wirelink Active_p START W A S D SHIFT
 @outputs Light:vector E:entity Active R1_dist_set
-@persist R1_dist W_i Active_i E_speed H_i R_E:array W_active
+@persist R1_dist Active_i E_speed H_i R_E:array
 @model models/hunter/blocks/cube05x105x05.mdl
 if(first()|dupefinished()){
     rangerPersist(1)
@@ -13,6 +12,7 @@ if(first()|dupefinished()){
     Color2 = vec(30,30,140)
     Active = 0
     Active_i = 0
+    H_i = 0
     E=entity()
     E:setMass(500)
     E:setAlpha(0)
@@ -63,12 +63,12 @@ if(first()|dupefinished()){
     holoCreate(10,E:toWorld(vec(0,-36,30)),vec(0.7,1.5,1.5)*0.4,E:toWorld(ang(180,90,0)))  
     holoModel(10,"models/props_trainstation/mount_connection001a.mdl")
     holoParent(10,E)
+    rangerFilter(R_E)
     timer("bip",500)
 }
 interval(tickInterval()*1000)
 BEA=Pod["Bearing",number]
 ELE=Pod["Elevation",number]
-DRIVER=Pod["Entity",entity]
 if(~START&START){
     Active= Active == 0 ? 1 : 0
     if(Active){
@@ -82,7 +82,6 @@ if(~START&START){
     }
 }
 Active_i+=-0.012+(Active>Active_i)*0.02
-W_i=W
 if($W){
     if(W){
         holoAlpha(9,255)
@@ -147,7 +146,7 @@ if(clk("bip")){
     }
 }
 if(abs(E:angles():pitch())>70 & E_speed<3){
-    E:applyAngForce(-E:angles()*ang(1,0,1)*8000)
+    E:applyAngForce(-E:angles()*ang(1,0,1)*11000)
     E:soundPlay(12,0,"npc/roller/mine/rmine_blip3.wav")
 }
 holoAlpha(5,(0.4+random(1))*Active_i)
