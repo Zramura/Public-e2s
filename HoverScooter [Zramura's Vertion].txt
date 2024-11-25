@@ -1,23 +1,23 @@
 @name HoverScooter [Zramura's Vertion]
+@inputs [Light1,Light2]:entity
 @inputs Pod:wirelink Active_p START W A S D SHIFT
-@outputs Light:vector E:entity Active
+@outputs Light:vector E:entity Active R1_dist_set
 @persist R1_dist W_i Active_i E_speed H_i R_E:array W_active
 @model models/hunter/blocks/cube05x105x05.mdl
-
-interval(20)
-
-if(dupefinished()){reset()}
-if(first()){
+if(first()|dupefinished()){
+    rangerPersist(1)
     soundPlay(0,0,"ambient/tones/garage.wav")
     soundPlay(1,0,"npc/manhack/mh_engine_loop1.wav") 
     soundPlay(2,0,"weapons/airboat/airboat_gun_loop2.wav")
     Color1 = vec(100,100,255)
     Color2 = vec(30,30,140)
+    Active = 0
+    Active_i = 0
     E=entity()
-    E:setMass(300)
+    E:setMass(500)
     E:setAlpha(0)
-    R_E=E:getConstraints()
-    
+    rangerPersist(1)
+    R_E = E:getConnectedEntities()
     holoCreate(0,E:toWorld(vec(10,13,0)),vec(0.5,0.5,3))
     holoModel(0,"models/props_combine/combine_mine01.mdl")
     holoParent(0,E)
@@ -65,10 +65,11 @@ if(first()){
     holoParent(10,E)
     timer("bip",500)
 }
+interval(tickInterval()*1000)
 BEA=Pod["Bearing",number]
 ELE=Pod["Elevation",number]
 DRIVER=Pod["Entity",entity]
-if(changed(START)&START){
+if(~START&START){
     Active= Active == 0 ? 1 : 0
     if(Active){
         soundPlay(6,0,"ambient/machines/thumper_startup1.wav")
@@ -100,19 +101,14 @@ E_speed=E_vel:length()
 R1_dist_set=60-min(E_vel:z()/2,0)
 if($E_speed<-(50+Active*250) ){
     if(Active){
-    #fx("explosion",E:pos(),1)
     soundPlay(9,0,"hl1/fvox/hev_general_fail.wav")
     }
     Active=0
     Active_i=0
-    #Pod["Damage Health",number]=E_speed/20
     soundPlay(6,0.8,"vehicles/v8/vehicle_impact_heavy"+randint(1,4):toString()+".wav")
 }
-rangerFilter(R_E)
 R1=rangerOffset(R1_dist_set,E:toWorld(vec(0,35,-10)),-vec(0,0,1))
-rangerFilter(R_E)
 R1_2=rangerOffset(R1_dist_set,E:toWorld(vec(0,-35,-10)),-vec(0,0,1))
-rangerFilter(R_E)
 R2=rangerOffset(E:pos(),E:pos()+E:vel()*3)
 R1_dist=R1:distance()
 R2_dist=R1_2:distance()
