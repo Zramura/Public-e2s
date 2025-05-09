@@ -19,7 +19,8 @@ if(first()){
 }
 event entityDamage(Victim:entity,DMG:damage){
     if(Victim==Entity){
-        Damage = round(DMG:getAmount(),2)
+        Damage = round(DMG:getAmount(),2) comment this and uncomment the line after if u want truly exact values
+#        Damage = DMG:getAmount()
         Count += Damage
         DamageType = getDamageType(DMG)
         print("Damage Type "+getDamageType(DMG)+" :: Amount = "+Damage:toString()+" :: total = "+Count:toString())
