@@ -12,5 +12,5 @@ Step 4: Some people then go straight to addons. WRONG! You'll be stuck there for
 
 Step 5: There, it's obvious. Advanced Duplicator 2 is the folder "advdupe2"
 
-this is how u find where to put the file when u download the file make sure to click the "raw" link
+this is how u find where to put the file, when u download the file make sure to click the "raw" link
 ----------------------------------------------------------------------------
