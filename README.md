@@ -1,4 +1,4 @@
-Helpful Wiki/Guide For [E2:](https://github.com/wiremod/wire/wiki/Expression-2)
+[Helpful Wiki/Guide For E2:](https://github.com/wiremod/wire/wiki/Expression-2)
 ----------------------------------------------------------------------------
 for any files in the advdupe2 folder the steps to load them into garry's mod is the following
 
