@@ -10,7 +10,7 @@ if(first()|dupefinished()){
     Target_Array = array()
     timer("Logic",1,0,function(){
         if(findCanQuery()){
-            findInSphere(entity():pos(),1000)
+            findInSphere(entity():pos(),1000) # range is set here
             Target_Array = findToArray()
         }
         if(Target_Array:count()>0){
