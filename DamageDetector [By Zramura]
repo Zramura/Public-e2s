@@ -12,18 +12,16 @@ function getDamageType(Damage:damage){
     }
     return TypeOutput
 }
-if(dupefinished()){reset()}
-if(first()){
+if(duped()){exit()}
+if(first()|dupefinished()){
     Count = 0,Damage = 0,DamageType = ""
     Entity = entity():isWeldedTo()
 }
 event entityDamage(Victim:entity,DMG:damage){
-    if(Victim==Entity){
-        Damage = round(DMG:getAmount(),2) comment this and uncomment the line after if u want truly exact values
-#        Damage = DMG:getAmount()
-        Count += Damage
-        DamageType = getDamageType(DMG)
-        print("Damage Type "+getDamageType(DMG)+" :: Amount = "+Damage:toString()+" :: total = "+Count:toString())
-    }
+    if(Victim!=Entity){exit()}
+    Damage = round(DMG:getAmount(),2)
+    Count += Damage
+    DamageType = getDamageType(DMG)
+    hint("Damage Type "+getDamageType(DMG)+" :: Amount = "+Damage:toString()+" :: total = "+Count:toString(),0.5)
 }
 if(Reset_Butten){Count = 0,Damage = 0}
