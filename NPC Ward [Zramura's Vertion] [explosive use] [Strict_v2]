@@ -8,16 +8,17 @@ if(first()|dupefinished()){
     }
     findIncludeClass("npc_*")
     Target_Array = array()
-    timer("find",1,0,function(){
+    timer("find",2.5,0,function(){
         if(findCanQuery()&Target_Array:count()==0){
             findInSphere(entity():pos(),1000)
+            findSortByDistance(entity():pos())
             Target_Array = findToArray()
         }elseif(Target_Array:count()>0){
             timerResume("kill")
             timerPause("find")
         }
     })
-    timer("kill",0.1,0,function(){
+    timer("kill",0.05,0,function(){
         if(Target_Array:count()>0){
             const Target_Entity = Target_Array[1,entity]
             if(Target_Entity:isValid()){
