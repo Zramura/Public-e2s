@@ -2,6 +2,11 @@
 @inputs Reset_Butten
 @outputs Damage Count DamageType:string
 @persist Entity:entity
+@trigger none
+@strict
+#ifdef dupefinished()
+if (duped()) { exit() }
+#endif
 function getDamageType(Damage:damage){
     const TypeTable = table(_DMG_ACID = "ACID",_DMG_AIRBOAT = "AIRBOAT",_DMG_ALWAYSGIB = "ALWAYSGIB",_DMG_BLAST = "BLAST",_DMG_BLAST_SURFACE = "BLAST_SURFACE",_DMG_BUCKSHOT = "BUCKSHOT",_DMG_BURN = "BURN",_DMG_CLUB = "CLUB",_DMG_CRUSH = "CRUSH",_DMG_DIRECT = "DIRECT",_DMG_DISSOLVE = "DISSOLVE",_DMG_DROWN = "DROWN",_DMG_DROWNRECOVER = "DROWNRECOVER",_DMG_ENERGYBEAM = "ENERGYBEAM",_DMG_FALL = "FALL",_DMG_GENERIC = "GENERIC",_DMG_MISSILEDEFENSE = "MISSILEDEFENSE",_DMG_NERVEGAS = "NERVEGAS",_DMG_NEVERGIB = "NEVERGIB",_DMG_PARALYZE = "PARALYZE",_DMG_PHYSGUN = "PHYSGUN",_DMG_PLASMA = "PLASMA",_DMG_POISON = "POISON",_DMG_PREVENT_PHYSICS_FORCE = "PREVENT_PHYSICS_FORCE",_DMG_SONIC = "SONIC",_DMG_RADIATION = "RADIATION",_DMG_REMOVENORAGDOLL = "REMOVENORAGDOLL",_DMG_SHOCK = "SHOCK",_DMG_SLASH = "SLASH",_DMG_SLOWBURN = "SLOWBURN",_DMG_SNIPER = "SNIPER",_DMG_VEHICLE = "VEHICLE")
     local TypeOutput = ""
@@ -12,16 +17,21 @@ function getDamageType(Damage:damage){
     }
     return TypeOutput
 }
-if(duped()){exit()}
-if(first()|dupefinished()){
-    Count = 0,Damage = 0,DamageType = ""
-    Entity = entity():isWeldedTo()
+Count = 0,Damage = 0,DamageType = ""
+Entity = entity():isWeldedTo()
+if(!Entity:isValid()){
+    error("place the chip on a valid entity: "+Entity:toString())
 }
 event entityDamage(Victim:entity,DMG:damage){
     if(Victim!=Entity){exit()}
     Damage = round(DMG:getAmount(),2)
     Count += Damage
     DamageType = getDamageType(DMG)
-    hint("Damage Type "+getDamageType(DMG)+" :: Amount = "+Damage:toString()+" :: total = "+Count:toString(),0.5)
+#    hint("Damage Type "+getDamageType(DMG)+" :: Amount = "+Damage:toString()+" :: total = "+Count:toString(),0.5) # uncomment to print to hud
+#    print("Damage Type "+getDamageType(DMG)+" :: Amount = "+Damage:toString()+" :: total = "+Count:toString())    # uncomment to print to chat
 }
-if(Reset_Butten){Count = 0,Damage = 0}
+event input(InputName:string){
+    if(InputName=="Reset_Butten"&Reset_Butten){
+        Count = Damage = 0
+    }
+}
