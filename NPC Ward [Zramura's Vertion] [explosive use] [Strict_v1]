@@ -1,27 +1,29 @@
 @name NPC Ward [Zramura's Vertion] [explosive use] [Strict_v1]
 @persist Target_Array:array
+@trigger none
 @strict
-if(first()|dupefinished()){
-    const Filter = array("npc_grenade_bugbait","npc_zombie_grenade","npc_grenade_frag","npc_satchel","npc_tripmine","npc_heli_avoidsphere","npc_template_maker","npcz_aw119_kiowa")
-    for(I=1,Filter:count()){
-        findExcludeClass(Filter[I,string])
+#ifdef dupefinished()
+if (duped()) { exit() }
+#endif
+const Filter = array("npc_grenade_bugbait","npc_zombie_grenade","npc_grenade_frag","npc_satchel","npc_tripmine","npc_heli_avoidsphere","npc_template_maker","npcz_aw119_kiowa")
+for(I=1,Filter:count()){
+    findExcludeClass(Filter[I,string])
+}
+findIncludeClass("npc_*")
+Target_Array = array()
+timer("Logic",1,0,function(){
+    if(findCanQuery()){
+        findInSphere(entity():pos(),1000) # range is set here
+        Target_Array = findToArray()
     }
-    findIncludeClass("npc_*")
-    Target_Array = array()
-    timer("Logic",1,0,function(){
-        if(findCanQuery()){
-            findInSphere(entity():pos(),1000) # range is set here
-            Target_Array = findToArray()
-        }
-        if(Target_Array:count()>0){
-            foreach(_:number,Target_Entity:entity=Target_Array){
-                if(Target_Entity:isValid()){
-                    Target_Pos = Target_Entity:toWorld(vec(0,0,Target_Entity:height()*0.5))
-                    if(Target_Entity:health()>0&propCanCreate()){
-                        propSpawn("models/props_phx/misc/potato_launcher_explosive.mdl",Target_Pos,ang(),1):propBreak()
-                    }
+    if(Target_Array:count()>0){
+        foreach(_:number,Target_Entity:entity=Target_Array){
+            if(Target_Entity:isValid()){
+                Target_Pos = Target_Entity:toWorld(vec(0,0,Target_Entity:height()*0.5))
+                if(Target_Entity:health()>0&propCanCreate()){
+                    propSpawn("models/props_phx/misc/potato_launcher_explosive.mdl",Target_Pos,ang(),1):propBreak()
                 }
             }
         }
-    })
-}
+    }
+})
