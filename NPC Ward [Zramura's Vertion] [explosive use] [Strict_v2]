@@ -6,11 +6,11 @@
 if (duped()) { exit() }
 #endif
 const Filter = array("npc_grenade_bugbait","npc_zombie_grenade","npc_grenade_frag","npc_satchel","npc_tripmine","npc_heli_avoidsphere","npc_template_maker","npcz_aw119_kiowa")
-for(I=1,Filter:count()){
-    findExcludeClass(Filter[I,string])
+foreach(_:number,Exclude:string=Filter){
+    findExcludeClass(Exclude)
 }
 findIncludeClass("npc_*")
-Target_Array = array()
+Target_Array = array(),Explosive = "models/props_phx/misc/potato_launcher_explosive.mdl"
 timer("find",2.5,0,function(){
     if(findCanQuery()&Target_Array:count()==0){
         findInSphere(entity():pos(),1000)
@@ -24,11 +24,9 @@ timer("find",2.5,0,function(){
 timer("kill",0.05,0,function(){
     if(Target_Array:count()>0){
         const Target_Entity = Target_Array[1,entity]
-        if(Target_Entity:isValid()){
+        if(Target_Entity&Target_Entity:health()>0){
             Target_Pos = Target_Entity:toWorld(vec(0,0,Target_Entity:height()*0.5))
-            if(Target_Entity:health()>0&propCanCreate()){
-                propSpawn("models/props_phx/misc/potato_launcher_explosive.mdl",Target_Pos,ang(),1):propBreak()
-            }
+            propSpawn(Explosive,Target_Pos,ang(),1):propBreak()
         }else{
             Target_Array:removeEntity(1)
         }
