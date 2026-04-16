@@ -28,9 +28,11 @@ timer("find",2.5,0,function(){
 timer("kill",0.05,0,function(){
     if(Target_Array:count()>0){
         const Target_Entity = Target_Array[1,entity]
-        if(Target_Entity&Target_Entity:health()>0&propCanCreate()){
-            Target_Pos = Target_Entity:toWorld(vec(0,0,Target_Entity:height()*0.5))
-            propSpawn(Explosive,Target_Pos,ang(),1):propBreak()
+        if(Target_Entity&Target_Entity:health()>0){
+            if(propCanCreate()){
+                Target_Pos = Target_Entity:toWorld(vec(0,0,Target_Entity:height()*0.5))
+                propSpawn(Explosive,Target_Pos,ang(),1):propBreak()
+            }
         }else{
             Target_Array:removeEntity(1)
         }
