@@ -1,4 +1,8 @@
 @name NPC Ward [Zramura's Vertion] [explosive use]
+@persist Target_Array:array
+const NPC_Ward_Range = 1000 # range is set here
+const Chip = entity()
+const Explosive = "models/props_phx/misc/potato_launcher_explosive.mdl"
 if(first()|dupefinished()){
     const Filter = array("npc_grenade_bugbait","npc_zombie_grenade","npc_grenade_frag","npc_satchel","npc_tripmine","npc_heli_avoidsphere","npc_template_maker","npcz_aw119_kiowa")
     foreach(_:number,Exclude:string=Filter){
@@ -6,11 +10,14 @@ if(first()|dupefinished()){
     }
     findIncludeClass("npc_*")
     timer("Logic",1,0,function(){
-        findInSphere(entity():pos(),1000)
-        const TargetArray = findToArray()
-        foreach(_:number,Target:entity=TargetArray){
+        if(findCanQuery()){
+            findInBox(Chip:toWorld(vec(-NPC_Ward_Range/2)),Chip:toWorld(vec(NPC_Ward_Range/2)))
+            findSortByDistance(Chip:pos())
+            Target_Array = findToArray()
+        }
+        foreach(_:number,Target:entity=Target_Array){
             if(Target:health()>0&propCanCreate()){
-                propSpawn("models/props_phx/misc/potato_launcher_explosive.mdl",Target:toWorld(vec(0,0,Target:height()*0.5)),ang(),1):propBreak()
+                propSpawn(Explosive,Target:toWorld(vec(0,0,Target:height()*0.5)),ang(),1):propBreak()
             }
         }
     })
