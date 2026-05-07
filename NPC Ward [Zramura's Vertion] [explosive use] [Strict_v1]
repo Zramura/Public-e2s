@@ -2,9 +2,6 @@
 @persist Target_Array:array
 @trigger none
 @strict
-#ifdef dupefinished()
-if(duped()){exit()}
-#endif
 const Filter = array("npc_grenade_bugbait","npc_zombie_grenade","npc_grenade_frag","npc_satchel","npc_tripmine","npc_heli_avoidsphere","npc_template_maker","npcz_aw119_kiowa")
 foreach(_:number,Exclude:string=Filter){
     findExcludeClass(Exclude)
@@ -17,7 +14,7 @@ Target_Array = array()
 propSpawnUndo(0)
 timer("Logic",1,0,function(){
     if(findCanQuery()){
-        findInBox(Chip:toWorld(vec(-NPC_Ward_Range/2)),Chip:toWorld(vec(NPC_Ward_Range/2)))
+        findInBox(Chip:toWorld(vec(-NPC_Ward_Range)),Chip:toWorld(vec(NPC_Ward_Range)))
         findSortByDistance(Chip:pos())
         Target_Array = findToArray()
     }
