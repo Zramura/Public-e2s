@@ -2,9 +2,6 @@
 @persist Target_Array:array
 @trigger none
 @strict
-#ifdef dupefinished()
-if (duped()) { exit() }
-#endif
 const Filter = array("npc_grenade_bugbait","npc_zombie_grenade","npc_grenade_frag","npc_satchel","npc_tripmine","npc_heli_avoidsphere","npc_template_maker","npcz_aw119_kiowa")
 foreach(_:number,Exclude:string=Filter){
     findExcludeClass(Exclude)
