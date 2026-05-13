@@ -14,7 +14,7 @@ Target_Array = array(),
 propSpawnUndo(0)
 timer("find",2.5,0,function(){
     if(findCanQuery()&Target_Array:count()==0){
-        findInBox(Chip:toWorld(vec(-NPC_Ward_Range/2)),Chip:toWorld(vec(NPC_Ward_Range/2)))
+        findInBox(Chip:toWorld(vec(-NPC_Ward_Range)),Chip:toWorld(vec(NPC_Ward_Range)))
         findSortByDistance(Chip:pos())
         Target_Array = findToArray()
     }elseif(Target_Array:count()>0){

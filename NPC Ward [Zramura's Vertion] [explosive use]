@@ -11,7 +11,7 @@ if(first()|dupefinished()){
     findIncludeClass("npc_*")
     timer("Logic",1,0,function(){
         if(findCanQuery()){
-            findInBox(Chip:toWorld(vec(-NPC_Ward_Range/2)),Chip:toWorld(vec(NPC_Ward_Range/2)))
+            findInBox(Chip:toWorld(vec(-NPC_Ward_Range)),Chip:toWorld(vec(NPC_Ward_Range)))
             findSortByDistance(Chip:pos())
             Target_Array = findToArray()
         }
