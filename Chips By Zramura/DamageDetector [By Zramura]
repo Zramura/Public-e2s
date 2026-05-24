@@ -1,34 +1,34 @@
-@name DamageDetector [By Zramura]
-@inputs Reset_Butten
+@name DamageDetector [By Zramura and Duck called Aaronimus]
+@inputs Reset_Button
 @outputs Damage Count DamageType:string
 @persist Entity:entity
 @trigger none
 @strict
-const TypeTable = table(_DMG_ACID = "ACID",_DMG_AIRBOAT = "AIRBOAT",_DMG_ALWAYSGIB = "ALWAYSGIB",_DMG_BLAST = "BLAST",_DMG_BLAST_SURFACE = "BLAST_SURFACE",_DMG_BUCKSHOT = "BUCKSHOT",_DMG_BURN = "BURN",_DMG_CLUB = "CLUB",_DMG_CRUSH = "CRUSH",_DMG_DIRECT = "DIRECT",_DMG_DISSOLVE = "DISSOLVE",_DMG_DROWN = "DROWN",_DMG_DROWNRECOVER = "DROWNRECOVER",_DMG_ENERGYBEAM = "ENERGYBEAM",_DMG_FALL = "FALL",_DMG_GENERIC = "GENERIC",_DMG_MISSILEDEFENSE = "MISSILEDEFENSE",_DMG_NERVEGAS = "NERVEGAS",_DMG_NEVERGIB = "NEVERGIB",_DMG_PARALYZE = "PARALYZE",_DMG_PHYSGUN = "PHYSGUN",_DMG_PLASMA = "PLASMA",_DMG_POISON = "POISON",_DMG_PREVENT_PHYSICS_FORCE = "PREVENT_PHYSICS_FORCE",_DMG_SONIC = "SONIC",_DMG_RADIATION = "RADIATION",_DMG_REMOVENORAGDOLL = "REMOVENORAGDOLL",_DMG_SHOCK = "SHOCK",_DMG_SLASH = "SLASH",_DMG_SLOWBURN = "SLOWBURN",_DMG_SNIPER = "SNIPER",_DMG_VEHICLE = "VEHICLE")
+
+const TypeTable = table(_DMG_BULLET = "BULLET", _DMG_ACID = "ACID", _DMG_AIRBOAT = "AIRBOAT", _DMG_ALWAYSGIB = "ALWAYSGIB", _DMG_BLAST = "BLAST", _DMG_BLAST_SURFACE = "BLAST_SURFACE", _DMG_BUCKSHOT = "BUCKSHOT", _DMG_BURN = "BURN", _DMG_CLUB = "CLUB", _DMG_CRUSH = "CRUSH", _DMG_DIRECT = "DIRECT", _DMG_DISSOLVE = "DISSOLVE", _DMG_DROWN = "DROWN", _DMG_DROWNRECOVER = "DROWNRECOVER", _DMG_ENERGYBEAM = "ENERGYBEAM", _DMG_FALL = "FALL", _DMG_GENERIC = "GENERIC", _DMG_MISSILEDEFENSE = "MISSILEDEFENSE", _DMG_NERVEGAS = "NERVEGAS", _DMG_NEVERGIB = "NEVERGIB", _DMG_PARALYZE = "PARALYZE", _DMG_PHYSGUN = "PHYSGUN", _DMG_PLASMA = "PLASMA", _DMG_POISON = "POISON", _DMG_PREVENT_PHYSICS_FORCE = "PREVENT_PHYSICS_FORCE", _DMG_SONIC = "SONIC", _DMG_RADIATION = "RADIATION", _DMG_REMOVENORAGDOLL = "REMOVENORAGDOLL", _DMG_SHOCK = "SHOCK", _DMG_SLASH = "SLASH", _DMG_SLOWBURN = "SLOWBURN", _DMG_SNIPER = "SNIPER", _DMG_VEHICLE = "VEHICLE")
 function getDamageType(Damage:damage){
-    local TypeOutput = ""
-    foreach(Key:number,TypeStr:string=TypeTable){
-        if(Damage:isType(Key)){
-            TypeOutput = TypeStr
-        }
-    }
-    return TypeOutput
+    return TypeTable[Damage:getDamageType(), string]
 }
-Count = Damage = 0,DamageType = ""
+
+Count = Damage = 0
+DamageType = ""
 Entity = entity():isWeldedTo()
+
 if(!Entity:isValid()){
-    error("place the chip on a valid entity: "+Entity:toString())
+    error("place the chip on a valid entity: " + Entity:toString())
 }
-event entityDamage(Victim:entity,DMG:damage){
-    if(Victim!=Entity){exit()}
-    Damage = round(DMG:getAmount(),2)
+
+event entityDamage(Victim:entity, DMG:damage){
+    if(Victim != Entity){exit()}
+    Damage = round(DMG:getAmount(), 2)
     Count += Damage
     DamageType = getDamageType(DMG)
-#    hint("Damage Type "+getDamageType(DMG)+" :: Amount = "+Damage:toString()+" :: total = "+Count:toString(),0.5) # uncomment to print to hud
-#    print("Damage Type "+getDamageType(DMG)+" :: Amount = "+Damage:toString()+" :: total = "+Count:toString())    # uncomment to print to chat
+#    hint("Damage Type " + getDamageType(DMG + " :: Amount = " + Damage:toString() + " :: total = "+Count:toString(), 0.5) # uncomment to print to hud
+#    print("Damage Type " + getDamageType(DMG) + " :: Amount = " + Damage:toString() + " :: total = "+Count:toString())    # uncomment to print to chat
 }
+
 event input(InputName:string){
-    if(InputName=="Reset_Butten"&Reset_Butten){
+    if(InputName == "Reset_Button" & Reset_Button){
         Count = Damage = 0
     }
 }
