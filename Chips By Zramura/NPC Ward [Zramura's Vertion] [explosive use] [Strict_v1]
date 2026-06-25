@@ -12,18 +12,20 @@ const Chip = entity()
 const Explosive = "models/props_phx/misc/potato_launcher_explosive.mdl"
 Target_Array = array()
 propSpawnUndo(0)
-timer("Logic",1,0,function(){
-    if(findCanQuery()){
-        findInBox(Chip:toWorld(vec(-NPC_Ward_Range)),Chip:toWorld(vec(NPC_Ward_Range)))
-        findSortByDistance(Chip:pos())
-        Target_Array = findToArray()
-    }
-    if(Target_Array:count()>0){
-        foreach(_:number,Target_Entity:entity=Target_Array){
-            if(Target_Entity&Target_Entity:health()>0&propCanCreate()){
-                const Target_Pos = Target_Entity:toWorld(vec(0,0,Target_Entity:height()*0.5))
-                propSpawn(Explosive,Target_Pos,ang(),1):propBreak()
+if(!timerExists("Logic")){
+    timer("Logic",1,0,function(){
+        if(findCanQuery()){
+            findInBox(Chip:toWorld(vec(-NPC_Ward_Range)),Chip:toWorld(vec(NPC_Ward_Range)))
+            findSortByDistance(Chip:pos())
+            Target_Array = findToArray()
+        }
+        if(Target_Array:count()>0){
+            foreach(_:number,Target_Entity:entity=Target_Array){
+                if(Target_Entity&Target_Entity:health()>0&propCanCreate()){
+                    const Target_Pos = Target_Entity:toWorld(vec(0,0,Target_Entity:height()*0.5))
+                    propSpawn(Explosive,Target_Pos,ang(),1):propBreak()
+                }
             }
         }
-    }
-})
+    })
+}
